@@ -1,0 +1,232 @@
+A0: 0xb2335efCBDb0712a17E14FdE602F40fF1cef32E1  0x8858d98eC700363a2A1D9308c7312653d186f9B0
+B1: 0xAa5407171c174db0901820e4Cf8Cad7701DCc768  0xd295d0BF5Fb583219CB7b8AB1a3F3f5E218D0442
+C2: 0x4442Df52a9B29762D2067D49b16D4CB627a41fdd  0x9c4c246bca58D3b821bFFdbdB88D60E8E2727E84
+D3: 0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa  0x4c538EbFF3a7b70c0FAad645B90D8d6A55B48002
+E4: 0x555b97257EABCB070389c5294450E00B939c2A50  0x7776756fbA7e1bF1883D97D89D72C5b0510b189e
+F5: 0x860A693bada6925B7f03DaFCB7A8b3Cc5a312261  0xD00e57997d5002423234d5C651CeA86f0e14E8FA
+G:6 0x28205c625d8a9D4067cb34C595Ef96F25C73cacd  0xAE2bCafCb611820359Ae72907b23543EcB15DC41
+
+supplyChain.deployed().then(function(instance) {return instance });
+// Create 3 manufacturer participants (A, B, C)
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("A","passA","0xb2335efCBDb0712a17E14FdE602F40fF1cef32E1","Manufacturer") });
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("B","passB","0xAa5407171c174db0901820e4Cf8Cad7701DCc768","Manufacturer") });
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("C","passC","0x4442Df52a9B29762D2067D49b16D4CB627a41fdd","Manufacturer") });
+
+// Create 2 supplier participants (D, E)
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("D","passD","0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa","Supplier") });
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("E","passE","0x555b97257EABCB070389c5294450E00B939c2A50","Supplier") });
+
+// Create 2 consumer participants (F, G)
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("F","passF","0x860A693bada6925B7f03DaFCB7A8b3Cc5a312261","Consumer") });
+supplyChain.deployed().then(function(instance) {return instance.addParticipant("G","passG","0x28205c625d8a9D4067cb34C595Ef96F25C73cacd","Consumer") });
+
+// Get participant details
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(0)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(1)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(2)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(3)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(4)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(5)});
+supplyChain.deployed().then(function(instance) {return instance.getParticipant(6)});
+
+// Create 6 products 100, 101 (owned by A), 200, 201 (owned by B), 300, 301 (owned C)
+supplyChain.deployed().then(function(instance) {return instance.addProduct(0, "ABC", "100", "123", 11) });
+supplyChain.deployed().then(function(instance) {return instance.addProduct(0, "DEF", "101", "456", 12) });
+supplyChain.deployed().then(function(instance) {return instance.addProduct(1, "GHI", "200", "789", 13, {from: "0xAa5407171c174db0901820e4Cf8Cad7701DCc768"}) });
+supplyChain.deployed().then(function(instance) {return instance.addProduct(1, "JKL", "201", "135", 14, {from: "0xAa5407171c174db0901820e4Cf8Cad7701DCc768"}) });
+supplyChain.deployed().then(function(instance) {return instance.addProduct(2, "MNO", "300", "357", 15, {from: "0x4442Df52a9B29762D2067D49b16D4CB627a41fdd"}) });
+supplyChain.deployed().then(function(instance) {return instance.addProduct(2, "PQR", "301", "759", 16, {from: "0x4442Df52a9B29762D2067D49b16D4CB627a41fdd"}) });
+
+
+// Get product details
+supplyChain.deployed().then(function(instance) {return instance.getProduct(0) });
+supplyChain.deployed().then(function(instance) {return instance.getProduct(1) });
+supplyChain.deployed().then(function(instance) {return instance.getProduct(2) });
+supplyChain.deployed().then(function(instance) {return instance.getProduct(3) });
+supplyChain.deployed().then(function(instance) {return instance.getProduct(4) });
+supplyChain.deployed().then(function(instance) {return instance.getProduct(5) });
+
+// Move products along supply chain: Manufacturer=> Supplier=> Supplier=> Consumer
+supplyChain.deployed().then(function(instance) {return instance.newOwner(0, 3, 0, {from: "0xb2335efCBDb0712a17E14FdE602F40fF1cef32E1"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(1, 3, 3, {from: "0xAa5407171c174db0901820e4Cf8Cad7701DCc768"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(2, 3, 4, {from: "0x4442Df52a9B29762D2067D49b16D4CB627a41fdd"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(0, 3, 1, {from: "0xb2335efCBDb0712a17E14FdE602F40fF1cef32E1"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(2, 4, 5, {from: "0x4442Df52a9B29762D2067D49b16D4CB627a41fdd"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(1, 4, 2, {from: "0xAa5407171c174db0901820e4Cf8Cad7701DCc768"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(3, 6, 4, {from: "0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(3, 4, 1, {from: "0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(3, 4, 3, {from: "0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(4, 5, 2, {from: "0x555b97257EABCB070389c5294450E00B939c2A50"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(3, 4, 0, {from: "0xaDB611Ac823cb60A500Ec3A5B06902d618d2E4Fa"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(4, 6, 0, {from: "0x555b97257EABCB070389c5294450E00B939c2A50"}) });
+supplyChain.deployed().then(function(instance) {return instance.newOwner(4, 5, 3, {from: "0x555b97257EABCB070389c5294450E00B939c2A50"}) });
+
+
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(0) });
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(1) });
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(2) });
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(3) });
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(4) });
+supplyChain.deployed().then(function(instance) {return instance.getProvenance(5) });
+
+//
+//
+//
+function addParticipant(string name, string pass, address pAdd, string pType) public returns (uint)
+function getParticipant(uint p_id) public view returns (string,address,string)
+function addProduct(uint own_id, string modelNumber, string partNumber, string serialNumber, uint productCost) public
+returns (uint)
+function getProduct(uint prod_id) public view returns (string,string,string,uint,address,uint)
+function newOwner(uint user1_id ,uint user2_id, uint prod_id) onlyOwner(prod_id) public returns(bool)
+/* function getProductRegistrationHistory(uint prod_id)  public  returns (registration[]) */
+function getOwnership(uint reg_id)  public view returns (uint,uint,address,uint)
+/* function getRegistraionList(uint prod_id) public returns (uint) */
+function authenticateParticipant(uint uid ,string uname ,string pass ,string utype) public view returns (bool)
+
+
+
+//Deployed address
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+
+Migrations dry-run (simulation)
+===============================
+> Network name:    'ropsten-fork'
+> Network id:      3
+> Block gas limit: 0x7a1200
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > block number:        9242054
+   > block timestamp:     1607750070
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.99795793
+   > gas used:            204207
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00204207 ETH
+
+   -------------------------------------
+   > Total cost:          0.00204207 ETH
+
+
+2_contracts_migration.js
+========================
+
+   Deploying 'ERC20Token'
+   ----------------------
+   > block number:        9242056
+   > block timestamp:     1607750077
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.98733943
+   > gas used:            1034852
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.01034852 ETH
+
+
+   Deploying 'supplyChain'
+   -----------------------
+   > block number:        9242057
+   > block timestamp:     1607750082
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.94952278
+   > gas used:            3781665
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.03781665 ETH
+
+   -------------------------------------
+   > Total cost:          0.04816517 ETH
+
+
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.05020724 ETH
+
+
+
+
+
+Starting migrations...
+======================
+> Network name:    'ropsten'
+> Network id:      3
+> Block gas limit: 0x7a1200
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xc757ca5e22db9d361546945d698e89a8b215b53b1bb6cffeed0072411f41f7f8
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x9061fF8B8c6a656BC7170698Acf3C3bcf1A221e9
+   > block number:        9242057
+   > block timestamp:     1607750087
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.99809989
+   > gas used:            190011
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00190011 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.00190011 ETH
+
+
+2_contracts_migration.js
+========================
+
+   Deploying 'ERC20Token'
+   ----------------------
+   > transaction hash:    0x815530d3b878803161d40ae7e38049618720ac3604ece25cd726f2db9f36b00e
+   > Blocks: 2            Seconds: 24
+   > contract address:    0x2fc2E30d338779482814e98F2D94A285f930440E
+   > block number:        9242060
+   > block timestamp:     1607750106
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.98856979
+   > gas used:            910672
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00910672 ETH
+
+
+   Deploying 'supplyChain'
+   -----------------------
+   > transaction hash:    0x72336a3f7e22c9b39f3e1ffe889aeece4d00283ea58a38343abe8165972e8fb4
+   > Blocks: 0            Seconds: 4
+   > contract address:    0x3Db4E3812396BE4C7F0D3E3171704D2C6e33bE56
+   > block number:        9242061
+   > block timestamp:     1607750127
+   > account:             0xaBBfF3885abd171a18ec88F2055EBD7BfBA5ba4d
+   > balance:             0.95746494
+   > gas used:            3110485
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.03110485 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.04021157 ETH
+
+
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.04211168 ETH
